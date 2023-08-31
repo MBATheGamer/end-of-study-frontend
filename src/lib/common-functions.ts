@@ -1,4 +1,3 @@
-import { get, type Writable } from "svelte/store";
 import type { ClassroomRequest, DepartmentRequest, Search, Sort, SubjectRequest } from "./custom-types";
 import { sortStore } from "./store/stores";
 
@@ -22,22 +21,15 @@ export const numberFormat = (x: number) => {
   return x % parseInt(x.toString()) === 0 ? parseInt(x.toString()) : x;
 }
 
-export const checkUrl = (baseUrl: string, url: string) => {
-  const firstCheck = url.indexOf(`${baseUrl}?`) !== -1;
-  const secondCheck = url.indexOf(`${baseUrl}&`) !== -1;
-  if (!firstCheck && secondCheck) url = url.replace("&", "?");
-	return url.indexOf("?") !== -1 ? url.concat("&") : url.concat("?");
-}
-
 export const sortBy = (field: string) => {
   sortStore.update(sort => {
     if (sort.field === field) {
-      sort.field = sort.order !== "desc" ? sort.field : "";
-      sort.order = sort.order !== "desc" ? "desc" : "";
+      sort.field = sort.order !== "DESC" ? sort.field : "";
+      sort.order = sort.order !== "DESC" ? "DESC" : "";
     }
     else {
       sort.field = field,
-      sort.order = "asc"
+      sort.order = "ASC"
     }
     return sort;
   });
@@ -74,6 +66,11 @@ export class GetURL {
       this.url.searchParams.set("search", search.keyword);
       this.url.searchParams.set("where", search.field);
     }
+    return new GetURL(this.url.toString());
+  }
+
+  public getUrlFromKeyword(search: Search) {
+    if (search.keyword) this.url.searchParams.set("search", search.keyword);
     return new GetURL(this.url.toString());
   }
 

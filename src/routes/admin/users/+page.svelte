@@ -32,10 +32,25 @@
 
   
   $: previous = () => {
+
+    if (!search.keyword) {
+      searchStore.set({
+        keyword: "",
+        field: ""
+      });
+    }
+
     pageStore.update(n => n > 2 ? n - 1 : 1);
   }
 
   $: next = () => {
+    if (!search.keyword) {
+      searchStore.set({
+        keyword: "",
+        field: ""
+      });
+    }
+
     pageStore.update(n => n + 1);
   }
   
@@ -63,7 +78,6 @@
           <option value="first_name">First Name</option>
           <option value="last_name">Last Name</option>
           <option value="email">Email</option>
-          <option value="role">Role</option>
         </select>
         <button class="btn join-item w-[88px]" on:click={() => {
           if (search.field && search.keyword) {
@@ -115,15 +129,7 @@
               </button>
             </th>
             <th>
-              <button
-                on:click={() => {
-                  sortBy("role");
-                  pageStore.set(1);
-                  goto(getUrl());
-                }}
-              >
-                Role
-              </button>
+              Role
             </th>
             <th>Actions</th>
           </tr>

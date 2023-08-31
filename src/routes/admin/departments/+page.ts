@@ -14,9 +14,9 @@ export const load = (async ({ fetch, url }) => {
 		fetchUrl.searchParams.set("ordering", url.searchParams.get("ordering") as string);
 	}
 
-	if (url.searchParams.get("search") && url.searchParams.get("where")) {
+	if (url.searchParams.get("search")) {
 		fetchUrl.searchParams.set("search", url.searchParams.get("search") as string);
-		fetchUrl.searchParams.set("where", url.searchParams.get("where") as string);
+		fetchUrl.searchParams.set("where", "name");
 	}
 
 	const { data } = await (await fetch(fetchUrl, {credentials: 'include'})).json();

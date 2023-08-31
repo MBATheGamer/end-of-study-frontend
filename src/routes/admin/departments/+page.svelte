@@ -6,7 +6,7 @@
   import type { PageData } from "./$types";
   import { goto } from "$app/navigation";
   import type { Search } from "$lib/custom-types";
-    import axios from "$lib/axios/axios";
+  import axios from "$lib/axios/axios";
 
   export let data: PageData;
 
@@ -25,7 +25,7 @@
   $: getUrl = () => {
     return url.getUrlFromNumber("page", $pageStore !== 1, $pageStore)
       .getUrlFromNumber("limit", $limitStore !== 10, $limitStore)
-      .getUrlFromSearch($searchStore)
+      .getUrlFromKeyword($searchStore)
       .getUrlFromSort($sortStore)
       .toString();
   }

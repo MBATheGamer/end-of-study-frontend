@@ -6,7 +6,7 @@
   import type { PageData } from "./$types";
   import { goto } from "$app/navigation";
   import type { Search } from "$lib/custom-types";
-    import axios from "$lib/axios/axios";
+  import axios from "$lib/axios/axios";
 
   export let data: PageData;
 
@@ -25,7 +25,7 @@
   $: getUrl = () => {
     return url.getUrlFromNumber("page", $pageStore !== 1, $pageStore)
       .getUrlFromNumber("limit", $limitStore !== 10, $limitStore)
-      .getUrlFromSearch($searchStore)
+      .getUrlFromKeyword($searchStore)
       .getUrlFromSort($sortStore)
       .toString();
   }
@@ -57,20 +57,15 @@
       </a>
 
       <div class="w-[455px] join">
-        <input bind:value={search.keyword} class="input input-bordered join-item w-[233px]" placeholder="Search" />
-        <select bind:value={search.field} class="select select-bordered join-item" >
-          <option disabled value="">Search By</option>
-          <option value="name">Name</option>
-          <option value="department">Department</option>
-        </select>
+        <input bind:value={search.keyword} class="input input-bordered join-item w-[367px]" placeholder="Search" />
         <button class="btn join-item w-[88px]" on:click={() => {
-          if (search.field && search.keyword) {
+          if (search.keyword) {
             searchStore.set(search);
             pageStore.set(1);
             goto(getUrl());
           }
         }}>Search</button>
-      </div>      
+      </div>  
     </div>
 
     <div class="mt-2 mb-4 h-[80%] xl:h-[87%] overflow-y-auto">
@@ -91,15 +86,7 @@
               </button>
             </th>
             <th>
-              <button
-                on:click={() => {
-                  sortBy("department");
-                  pageStore.set(1);
-                  goto(getUrl());
-                }}
-              >
-                Department
-              </button>
+              Department
             </th>
             <th>
               Description
