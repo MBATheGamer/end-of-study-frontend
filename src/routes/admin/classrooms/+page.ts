@@ -1,6 +1,6 @@
 import type { PageLoad } from './$types';
 import type { ClassroomResponse } from '$lib/custom-types';
-import { baseUrl } from '$main/lib/consts';
+import { baseUrl } from '$lib/consts';
 
 export const load = (async ({ fetch, url }) => {
 	const fetchUrl = new URL(`${baseUrl}/classrooms`);

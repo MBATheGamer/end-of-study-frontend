@@ -6,6 +6,7 @@
   import type { PageData } from "./$types";
   import { goto } from "$app/navigation";
   import type { Search } from "$lib/custom-types";
+    import axios from "$lib/axios/axios";
 
   export let data: PageData;
 
@@ -67,7 +68,7 @@
       </div>      
     </div>
 
-    <div class="mt-2 mb-4 h-[80%] overflow-y-auto">
+    <div class="mt-2 mb-4 h-[80%] xl:h-[87%] overflow-y-auto">
       <table class="table table-pin-rows">
         <thead>
           <tr>
@@ -141,3 +142,11 @@
     </div>
   </div>
 {/if}
+
+
+<ConfirmModal bind:showModal={show} onConfirm={async () => {
+  await axios.delete(`departments/${id}`);
+
+  // delete department
+  departments = departments.filter(department => department.id !== id);
+}}/>

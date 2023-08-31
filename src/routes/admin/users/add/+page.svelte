@@ -2,18 +2,12 @@
   import { goto } from "$app/navigation";
   import axios from "$lib/axios/axios";
   import type { UserRequest } from "$lib/custom-types";
+    import { userRequestFactory } from "$main/lib/user.factory";
   import type { PageData } from "./$types";
 
   export let data: PageData;
   const {roles, classrooms} = data;
-  let user: UserRequest = {
-    cin: "",
-    firstName: "",
-    lastName: "",
-    email: "",
-    roleId: 0,
-    classroomId: 0
-  };
+  let user: UserRequest = userRequestFactory();
   let dateOfBirth: string = "";
   let mobile: string = "";
   let address: string = "";
