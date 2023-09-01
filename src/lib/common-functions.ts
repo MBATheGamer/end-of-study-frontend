@@ -69,11 +69,6 @@ export class GetURL {
     return new GetURL(this.url.toString());
   }
 
-  public getUrlFromKeyword(search: Search) {
-    if (search.keyword) this.url.searchParams.set("search", search.keyword);
-    return new GetURL(this.url.toString());
-  }
-
   public toString() {
     return this.url.toString();
   }

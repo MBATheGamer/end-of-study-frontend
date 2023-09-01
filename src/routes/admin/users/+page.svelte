@@ -75,14 +75,19 @@
         <input bind:value={search.keyword} class="input input-bordered join-item w-[233px]" placeholder="Search" />
         <select bind:value={search.field} class="select select-bordered join-item" >
           <option disabled value="">Search By</option>
-          <option value="first_name">First Name</option>
-          <option value="last_name">Last Name</option>
+          <option value="firstName">First Name</option>
+          <option value="lastName">Last Name</option>
           <option value="email">Email</option>
+          <option value="role">Role</option>
         </select>
         <button class="btn join-item w-[88px]" on:click={() => {
           if (search.field && search.keyword) {
             searchStore.set(search);
             pageStore.set(1);
+            goto(getUrl());
+          }
+          else if (search.field) {
+            searchStore.set({field: "", keyword: ""});
             goto(getUrl());
           }
         }}>Search</button>
@@ -98,7 +103,7 @@
             <th>
               <button
                 on:click={() => {
-                  sortBy("first_name");
+                  sortBy("firstName");
                   pageStore.set(1);
                   goto(getUrl());
                 }}
@@ -109,7 +114,7 @@
             <th>
               <button
                 on:click={() => {
-                  sortBy("last_name");
+                  sortBy("lastName");
                   pageStore.set(1);
                   goto(getUrl());
                 }}
@@ -129,7 +134,15 @@
               </button>
             </th>
             <th>
-              Role
+              <button
+                on:click={() => {
+                  sortBy("role");
+                  pageStore.set(1);
+                  goto(getUrl());
+                }}
+              >
+                Role
+              </button>
             </th>
             <th>Actions</th>
           </tr>

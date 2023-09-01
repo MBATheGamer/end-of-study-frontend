@@ -25,7 +25,7 @@
   $: getUrl = () => {
     return url.getUrlFromNumber("page", $pageStore !== 1, $pageStore)
       .getUrlFromNumber("limit", $limitStore !== 10, $limitStore)
-      .getUrlFromKeyword($searchStore)
+      .getUrlFromSearch($searchStore)
       .getUrlFromSort($sortStore)
       .toString();
   }
@@ -62,6 +62,10 @@
           if (search.keyword) {
             searchStore.set(search);
             pageStore.set(1);
+            goto(getUrl());
+          }
+          else {
+            searchStore.set({field: "", keyword: ""});
             goto(getUrl());
           }
         }}>Search</button>

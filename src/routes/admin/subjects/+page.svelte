@@ -25,7 +25,7 @@
   $: getUrl = () => {
     return url.getUrlFromNumber("page", $pageStore !== 1, $pageStore)
       .getUrlFromNumber("limit", $limitStore !== 10, $limitStore)
-      .getUrlFromKeyword($searchStore)
+      .getUrlFromSearch($searchStore)
       .getUrlFromSort($sortStore)
       .toString();
   }
@@ -57,15 +57,25 @@
       </a>
 
       <div class="w-[455px] join">
-        <input bind:value={search.keyword} class="input input-bordered join-item w-[367px]" placeholder="Search" />
+        <input bind:value={search.keyword} class="input input-bordered join-item w-[233px]" placeholder="Search" />
+        <select bind:value={search.field} class="select select-bordered join-item" >
+          <option disabled value="">Search By</option>
+          <option value="name">Name</option>
+          <option value="classroom">Classroom</option>
+          <option value="teacher">Teacher</option>
+        </select>
         <button class="btn join-item w-[88px]" on:click={() => {
-          if (search.keyword) {
+          if (search.field && search.keyword) {
             searchStore.set(search);
             pageStore.set(1);
             goto(getUrl());
           }
+          else if (search.field) {
+            searchStore.set({field: "", keyword: ""});
+            goto(getUrl());
+          }
         }}>Search</button>
-      </div>
+      </div>      
     </div>
 
     <div class="mt-2 mb-4 h-[80%] xl:h-[87%] overflow-y-auto">
@@ -86,10 +96,26 @@
               </button>
             </th>
             <th>
-              Classroom
+              <button
+                on:click={() => {
+                  sortBy("classroom");
+                  pageStore.set(1);
+                  goto(getUrl());
+                }}
+              >
+                Classroom
+              </button>
             </th>
             <th>
-              Teacher
+              <button
+                on:click={() => {
+                  sortBy("teacher");
+                  pageStore.set(1);
+                  goto(getUrl());
+                }}
+              >
+                Teacher
+              </button>
             </th>
             <th>
               Description

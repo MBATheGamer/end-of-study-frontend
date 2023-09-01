@@ -12,7 +12,7 @@ const config = {
 			$utils: "src/utils",
 			$icons: "src/icons",
 			$main: "src",
-			$assets: "static"
+			$assets: "src/assets"
 		}
 	}
 };
