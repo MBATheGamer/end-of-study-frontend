@@ -1,7 +1,7 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import axios from "$lib/axios/axios";
-    import { subjectValidator } from "$lib/common-functions";
+  import { subjectValidator } from "$lib/common-functions";
   import type { PageData } from "./$types";
 
   export let data: PageData;

@@ -2,19 +2,19 @@ import type { Path } from "$lib/interface/path";
 
 export const paths: Path[] = [
   {
-    path: "",
+    path: "#home",
     label: "Home"
   },
   {
-    path: "features",
+    path: "#features",
     label: "Features"
   },
   {
-    path: "faqs",
-    label: "FAQs"
+    path: "#fqas",
+    label: "FQAs"
   },
   {
-    path: "about",
+    path: "#about",
     label: "About"
   }
 ];

@@ -36,7 +36,7 @@
   }
 </script>
 
-<div class="navbar bg-base-100 md:px-12 sm:px-6">
+<div class="navbar bg-base-100 md:px-12 sm:px-6 z-10">
 	<div class="drawer navbar-start md:hidden">
   	<input id="my-drawer" type="checkbox" class="drawer-toggle" />
   	<div class="drawer-content">

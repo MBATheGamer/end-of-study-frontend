@@ -32,25 +32,27 @@
   <title>Login</title>
 </svelte:head>
 
-<div class="p-6 sm:mx-auto md:rounded-md md:shadow-md md:ring-2 md:ring-neutral-content sm:max-w-lg">
-  <h1 class="text-3xl font-semibold text-center">Login</h1>
-  <form class="space-y-4">
-    <div>
-      <label for="email" class="label">
-        <span class="text-base label-text">Email</span>
-      </label>
-      <input bind:value={login.email} id="email" type="text" placeholder="Email Address" class="w-full input input-bordered" required />
-    </div>
-    <div>
-      <label for="password" class="label">
-        <span class="text-base label-text">Password</span>
-      </label>
-      <input bind:value={login.password} id="password" type="password" placeholder="Enter Password" class="w-full input input-bordered" required />
-    </div>
-    <div class="space-y-4">
-      <button type="submit" class="btn btn-block btn-primary" on:click={submit}>Login</button>
-      <hr class="hidden md:block"/>
-      <a href="/sign-up" class="btn btn-block btn-primary btn-outline">Sign Up</a>
-    </div>
-  </form>
+<div class="grid place-items-center h-full">
+  <div class="w-[80%] p-6 mx-auto md:rounded-md md:shadow-md md:ring-2 md:ring-neutral-content sm:w-[512px]">
+    <h1 class="text-3xl font-semibold text-center">Login</h1>
+    <form class="space-y-4">
+      <div>
+        <label for="email" class="label">
+          <span class="text-base label-text">Email</span>
+        </label>
+        <input bind:value={login.email} id="email" type="text" placeholder="Email Address" class="w-full input input-bordered" required />
+      </div>
+      <div>
+        <label for="password" class="label">
+          <span class="text-base label-text">Password</span>
+        </label>
+        <input bind:value={login.password} id="password" type="password" placeholder="Enter Password" class="w-full input input-bordered" required />
+      </div>
+      <div class="space-y-4">
+        <button type="submit" class="btn btn-block btn-primary" on:click={submit}>Login</button>
+        <hr class="hidden md:block"/>
+        <a href="/sign-up" class="btn btn-block btn-primary btn-outline">Sign Up</a>
+      </div>
+    </form>
+  </div>
 </div>

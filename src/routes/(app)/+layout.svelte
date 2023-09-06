@@ -4,13 +4,11 @@
 	import { paths } from "$lib/data/paths";
 	
 	$: getPath = (path: string) => {
-    const params = $page.url.href.split("/");
-
-    return path === params[params.length - 1];
+    return $page.url.href.indexOf(path) === $page.url.href.length - path.length;
   }
 </script>
 
-<div class="navbar bg-base-100 md:px-12 sm:px-6">
+<div class="sticky top-0 h-20 navbar bg-base-100 md:px-12 sm:px-6 z-10">
 	<div class="drawer navbar-start md:hidden">
   	<input id="my-drawer" type="checkbox" class="drawer-toggle" />
   	<div class="drawer-content">
@@ -51,6 +49,6 @@
 	</div>
 </div>
 
-<div class="w-full my-auto p-6">
+<div class="w-full h-full mx-auto">
 	<slot />
 </div>
