@@ -88,7 +88,7 @@
             </label>
           </div>
 
-          <div class="flex justify-end text-center space-x-2 me-2 absolute bottom-10 right-10">
+          <div class="flex justify-end text-center space-x-2 me-2 absolute bottom-8 right-10">
             <a class="btn btn-outline btn-secondary rounded-3" href="/admin/subjects">
               Close
             </a>

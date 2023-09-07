@@ -1,10 +1,27 @@
 <script lang="ts">
   import { subjectStore } from "$lib/store/stores";
+    import type { PostRequest } from "$main/lib/custom-types";
   import type { PageData } from "./$types";
 
   export let data: PageData;
 
   subjectStore.set(data.subject);
+
+  const post: PostRequest = {
+    title: "",
+    content: ""
+  }
+
+  const submit = () => {
+    if (files) {
+    post.files = files;
+
+		for (const file of post.files) {
+			console.log(`${file.name}: ${file.size} bytes`);
+		}
+  }
+  }
+  let files: FileList;
 </script>
 
 <main class="mx-auto">
@@ -20,19 +37,31 @@
     </div>
     <div class="page" id="page1">
       <div class="front-page">
-        <div class="relative m-2 space-y-6">
-          <label class="absolute top-0 left-0 w-full text-center text-3xl" for="description">
-            Title
-          </label>
-          <textarea class="absolute top-5 left-0 ring-2 ring-black w-full rounded-md resize-none px-2 py-1" id="description" placeholder=" " rows="1" />
-        </div>
+        <form>
+          <div class="relative m-2">
+            <input bind:value={post.title} type="text" id="title" class="block px-3 pb-3 pt-6 w-full bg-transparent text-accent-content font-semibold rounded-lg border-2 border-base-content appearance-none focus:outline-none peer" placeholder=" " required />
+            <label for="title" class="absolute left-2 text-md font-semibold text-accent-content transform duration-300 top-5 scale-75 -translate-y-4 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-5 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:font-bold">
+              Title
+            </label>
+          </div>
 
-        <div class="relative top-[5rem] m-2 space-y-6">
-          <label class="absolute top-0 left-0 w-full text-center text-3xl" for="description">
-            Description
-          </label>
-          <textarea class="absolute top-5 left-0 ring-2 ring-black w-full rounded-md resize-none px-2 py-1" id="description" placeholder=" " rows="15" />
-        </div>
+          <div class="relative m-2">
+            <textarea bind:value={post.content} id="Content" class="block px-3 pb-3 pt-6 w-full bg-transparent rounded-lg border-2 border-base-content appearance-none focus:outline-none peer resize-none" placeholder=" " rows="13" />
+            <label for="Content" class="absolute left-2 text-md font-semibold text-accent-content transform duration-300 top-5 scale-75 -translate-y-4 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-9 peer-focus:top-5 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:font-bold">
+              Content
+            </label>
+          </div>
+
+          <div class="relative m-2">
+            <input bind:files multiple type="file" class="file-input bg-white file-input-bordered w-full" />
+          </div>
+
+          <div class="flex justify-end text-center space-x-2 me-2 absolute bottom-8 right-10">
+            <button class="btn btn-primary rounded-3" on:click={submit}>
+              Post
+            </button>
+          </div>
+        </form>
 
         <label class="next" for="checkbox-page1">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
@@ -41,9 +70,7 @@
         </label>
       </div>
       <div class="back-page">
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus ex placeat nobis odio nesciunt blanditiis cum commodi explicabo nulla iure natus corporis laudantium, similique est architecto aspernatur? Blanditiis, vero deserunt!
-        </p>
+        <h1 class="ml-2 mb-3 font-bold text-3xl">Attachments</h1>
         <label class="prev" for="checkbox-page1">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
@@ -102,7 +129,7 @@
     perspective: 1500;
   }
 
-  input {
+  input[type="checkbox"] {
     display: none;
   }
 

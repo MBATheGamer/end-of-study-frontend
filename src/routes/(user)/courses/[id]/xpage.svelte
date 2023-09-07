@@ -1,15 +1,17 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import axios from "$lib/axios/axios";
-    import { departmentValidator } from "$lib/common-functions";
-  import type { PageData } from "./$types";
+  import { departmentValidator } from "$lib/common-functions";
+  import type { DepartmentRequest } from "$lib/custom-types";
 
-  export let data: PageData;
-  const {id, department} = data;
+  const department: DepartmentRequest = {
+    name: "",
+    description: "",
+  }
 
   const submit = async () => {
     if (departmentValidator(department)) {
-      await axios.put(`/departments/${id}`, department)
+      await axios.post(`/departments`, department)
         .then(() => {
           goto("/admin/departments");
         });
@@ -22,7 +24,7 @@
   <div class="book">
     <div class="cover">
       <label for="checkbox-cover">
-        <h1 class="absolute text-5xl font-bold top-36 left-8">Edit Department #{id}</h1>
+        <h1 class="absolute text-5xl font-bold top-36 left-8">Add Department</h1>
       </label>
     </div>
     <div class="page" id="page1">
@@ -43,11 +45,8 @@
           </div>
 
           <div class="flex justify-end text-center space-x-2 me-2 absolute bottom-8 right-10">
-            <a class="btn btn-outline btn-secondary rounded-3" href="/admin/departments">
-              Close
-            </a>
             <button class="btn btn-primary rounded-3" on:click={submit}>
-              Save
+              Post
             </button>
           </div>
         </form>

@@ -97,3 +97,9 @@ export type Search = {
   keyword: string;
   field: string;
 }
+
+export type PostRequest = {
+  title: string;
+  content: string;
+  files?: FileList;
+}
