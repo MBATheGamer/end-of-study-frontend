@@ -81,9 +81,9 @@
       </label>
       <ul tabIndex={0} class="mt-3 z-[1] p-2 shadow menu dropdown-content bg-base-300 rounded-box w-52">
         <li>
-          <a href="/profile/view">Profile</a>
+          <a href="/admin/profile/view">Profile</a>
         </li>
-        <li><a href="/profile/setting/info">Settings</a></li>
+        <li><a href="/admin/profile/setting">Settings</a></li>
         <li><a href="/" on:click={logout}>Logout</a></li>
       </ul>
     </div>

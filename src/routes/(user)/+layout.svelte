@@ -97,7 +97,7 @@
         <li>
           <a href="/profile/view">Profile</a>
         </li>
-        <li><a href="/profile/setting/info">Settings</a></li>
+        <li><a href="/profile/setting">Settings</a></li>
         <li><a href="/" on:click={logout}>Logout</a></li>
       </ul>
     </div>

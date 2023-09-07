@@ -56,7 +56,7 @@ export type UserRequest = {
   dateOfBirth?: Date;
   mobile?: string;
   address?: string;
-  roleId: number;
+  roleId?: number;
   classroomId?: number;
 }
 
