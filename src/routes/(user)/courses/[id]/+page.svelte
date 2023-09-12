@@ -1,27 +1,51 @@
 <script lang="ts">
-  import { subjectStore } from "$lib/store/stores";
-    import type { PostRequest } from "$main/lib/custom-types";
+  import { roleIdStore, subjectStore } from "$lib/store/stores";
+  import type { PostRequest } from "$lib/custom-types";
   import type { PageData } from "./$types";
+  import "$styles/book.css";
+  import Textarea from "$components/Textarea.svelte";
+  import Input from "$components/Input.svelte";
+  import axios from "$lib/axios/axios";
+  import { marked } from "marked";
 
   export let data: PageData;
+
+  let { posts } = data;
+
+  let disabled = posts.length > 13;
+
+  $: posts = data.posts;
+
+  console.log(posts);
 
   subjectStore.set(data.subject);
 
   const post: PostRequest = {
     title: "",
-    content: ""
+    content: "",
+    subjectId: $subjectStore.id
   }
 
-  const submit = () => {
-    if (files) {
-    post.files = files;
-
-		for (const file of post.files) {
-			console.log(`${file.name}: ${file.size} bytes`);
-		}
-  }
-  }
   let files: FileList;
+
+  $: submit = async () => {
+    if (post.title.trim() !== "" && post.content.trim() !== "") {
+      if (files) {
+        post.files = [];
+        for (const file of files) {
+          const { data } = await axios.post(`/uploads`, {"image": file}, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          });
+          post.files.push(data.url);
+		    }
+      }
+      const { data } = await axios.post(`/posts`, post);
+      console.log(data);
+      posts.push(data);
+    }
+  }
 </script>
 
 <main class="mx-auto">
@@ -29,40 +53,46 @@
   <input type="checkbox" id="checkbox-page1">
   <input type="checkbox" id="checkbox-page2">
   <input type="checkbox" id="checkbox-page3">
+  <input type="checkbox" id="checkbox-page4">
+  <input type="checkbox" id="checkbox-page5">
+  <input type="checkbox" id="checkbox-page6">
+  <input type="checkbox" id="checkbox-page7">
+  <input type="checkbox" id="checkbox-page8">
+  <input type="checkbox" id="checkbox-page9">
+  <input type="checkbox" id="checkbox-page10">
+  <input type="checkbox" id="checkbox-page11">
+  <input type="checkbox" id="checkbox-page12">
+  <input type="checkbox" id="checkbox-page13">
   <div class="book">
     <div class="cover">
       <label for="checkbox-cover">
-        <h1 class="absolute text-5xl font-bold top-36 left-8">{$subjectStore.name}</h1>
+        <h1 class="absolute text-5xl text-black font-bold top-36 left-8">{$subjectStore.name}</h1>
       </label>
     </div>
     <div class="page" id="page1">
       <div class="front-page">
-        <form>
-          <div class="relative m-2">
-            <input bind:value={post.title} type="text" id="title" class="block px-3 pb-3 pt-6 w-full bg-transparent text-accent-content font-semibold rounded-lg border-2 border-base-content appearance-none focus:outline-none peer" placeholder=" " required />
-            <label for="title" class="absolute left-2 text-md font-semibold text-accent-content transform duration-300 top-5 scale-75 -translate-y-4 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-5 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:font-bold">
-              Title
-            </label>
-          </div>
+        {#if $roleIdStore === 2}
+          <form>
+            <Input bind:value={post.title} id="title" label="Title" type="text" required={true} {disabled} />
+            <Textarea bind:value={post.content} rows={11} label={"Content"} {disabled} />
 
-          <div class="relative m-2">
-            <textarea bind:value={post.content} id="Content" class="block px-3 pb-3 pt-6 w-full bg-transparent rounded-lg border-2 border-base-content appearance-none focus:outline-none peer resize-none" placeholder=" " rows="13" />
-            <label for="Content" class="absolute left-2 text-md font-semibold text-accent-content transform duration-300 top-5 scale-75 -translate-y-4 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-9 peer-focus:top-5 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:font-bold">
-              Content
-            </label>
-          </div>
+            <div class="relative w-full m-2">
+              <input  bind:files multiple type="file" class="file-input bg-white file-input-bordered w-full disabled:bg-base-content/25" {disabled} />
+            </div>
 
-          <div class="relative m-2">
-            <input bind:files multiple type="file" class="file-input bg-white file-input-bordered w-full" />
-          </div>
-
-          <div class="flex justify-end text-center space-x-2 me-2 absolute bottom-8 right-10">
-            <button class="btn btn-primary rounded-3" on:click={submit}>
-              Post
-            </button>
-          </div>
-        </form>
-
+            <div class="flex justify-end text-center space-x-2 absolute bottom-8 right-6">
+              <button class="btn btn-primary rounded-3" on:click={submit}>
+                Post
+              </button>
+            </div>
+          </form>
+        {:else}
+          <h1 class="absolute text-5xl text-black font-bold top-36 left-8">
+            Welcome to
+            <br/>
+            {$subjectStore.name}
+          </h1>
+        {/if}
         <label class="next" for="checkbox-page1">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
@@ -70,7 +100,14 @@
         </label>
       </div>
       <div class="back-page">
-        <h1 class="ml-2 mb-3 font-bold text-3xl">Attachments</h1>
+        {#if posts[0]}
+          <h1 class="ml-2 mb-3 font-bold text-3xl">Attachments</h1>
+          {#if posts[0]["files"]}
+            {#each posts[0]["files"] as file}
+              <a href={file.path} target="_blank" class="btn">Open Document</a>
+            {/each}
+          {/if}
+        {/if}
         <label class="prev" for="checkbox-page1">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
@@ -79,21 +116,28 @@
       </div>
     </div>
     <div class="page" id="page2">
-      <div class="front-page">
-        <h2>Page 2</h2>
-        <p>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil magni laudantium beatae quia. Recusandae, fuga quas consectetur perferendis aperiam esse velit veniam ducimus? Quisquam consequatur perferendis quidem quia, recusandae ab!
-        </p>
-        <label class="next" for="checkbox-page2">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
-          </svg>
-        </label>
-      </div>
+      {#if posts[0]}
+        <div class="front-page">
+          <h2 class="text-center font-bold text-3xl mb-4">{posts[0].title}</h2>
+          <div class="w-full h-[90%] overflow-y-auto">
+            {@html marked(posts[0].content)}
+          </div>
+          <label class="next" for="checkbox-page2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+            </svg>
+          </label>
+        </div>
+      {/if}
       <div class="back-page">
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus ex placeat nobis odio nesciunt blanditiis cum commodi explicabo nulla iure natus corporis laudantium, similique est architecto aspernatur? Blanditiis, vero deserunt!
-        </p>
+        {#if posts[1]}
+          <h1 class="ml-2 mb-3 font-bold text-3xl">Attachments</h1>
+          {#if posts[1]["files"]}
+            {#each posts[1]["files"] as file}
+              <a href={file.path} target="_blank" class="btn">Open Document</a>
+            {/each}
+          {/if}
+        {/if}
         <label class="prev" for="checkbox-page2">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
@@ -102,145 +146,345 @@
       </div>
     </div>
     <div class="page" id="page3">
-      <div class="front-page">
-        <h2>Page 3</h2>
-        <p>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil magni laudantium beatae quia. Recusandae, fuga quas consectetur perferendis aperiam esse velit veniam ducimus? Quisquam consequatur perferendis quidem quia, recusandae ab!
-        </p>
+      {#if posts[1]}
+        <div class="front-page">
+          <h2 class="text-center font-bold text-3xl mb-4">{posts[1].title}</h2>
+          <div class="w-full h-[90%] overflow-y-auto">
+            {@html marked(posts[1].content)}
+          </div>
+          <label class="next" for="checkbox-page3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+            </svg>
+          </label>
+        </div>
+      {/if}
+      <div class="back-page">
+        {#if posts[2]}
+          <h1 class="ml-2 mb-3 font-bold text-3xl">Attachments</h1>
+          {#if posts[2]["files"]}
+            {#each posts[2]["files"] as file}
+              <a href={file.path} target="_blank" class="btn">Open Document</a>
+            {/each}
+          {/if}
+        {/if}
+        <label class="prev" for="checkbox-page3">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+          </svg>
+        </label>
       </div>
+    </div>
+    <div class="page" id="page4">
+      {#if posts[2]}
+        <div class="front-page">
+          <h2 class="text-center font-bold text-3xl mb-4">{posts[2].title}</h2>
+          <div class="w-full h-[90%] overflow-y-auto">
+            {@html marked(posts[2].content)}
+          </div>
+          <label class="next" for="checkbox-page4">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+            </svg>
+          </label>
+        </div>
+      {/if}
+      <div class="back-page">
+        {#if posts[3]}
+          <h1 class="ml-2 mb-3 font-bold text-3xl">Attachments</h1>
+          {#if posts[3]["files"]}
+            {#each posts[3]["files"] as file}
+              <a href={file.path} target="_blank" class="btn">Open Document</a>
+            {/each}
+          {/if}
+        {/if}
+        <label class="prev" for="checkbox-page4">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+          </svg>
+        </label>
+      </div>
+    </div>
+    <div class="page" id="page5">
+      {#if posts[3]}
+        <div class="front-page">
+          <h2 class="text-center font-bold text-3xl mb-4">{posts[3].title}</h2>
+          <div class="w-full h-[90%] overflow-y-auto">
+            {@html marked(posts[3].content)}
+          </div>
+          <label class="next" for="checkbox-page5">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+            </svg>
+          </label>
+        </div>
+      {/if}
+      <div class="back-page">
+        {#if posts[4]}
+          <h1 class="ml-2 mb-3 font-bold text-3xl">Attachments</h1>
+              {#if posts[4]["files"]}
+                {#each posts[4]["files"] as file}
+                <a href={file.path} target="_blank" class="btn">Open Document</a>
+              {/each}
+            {/if}
+        {/if}
+        <label class="prev" for="checkbox-page5">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+          </svg>
+        </label>
+      </div>
+    </div>
+    <div class="page" id="page6">
+      {#if posts[4]}
+        <div class="front-page">
+          <h2 class="text-center font-bold text-3xl mb-4">{posts[4].title}</h2>
+          <div class="w-full h-[90%] overflow-y-auto">
+            {@html marked(posts[4].content)}
+          </div>
+          <label class="next" for="checkbox-page6">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+            </svg>
+          </label>
+        </div>
+      {/if}
+      <div class="back-page">
+        {#if posts[5]}
+          <h1 class="ml-2 mb-3 font-bold text-3xl">Attachments</h1>
+            {#if posts[5]["files"]}
+              {#each posts[5]["files"] as file}
+                <a href={file.path} target="_blank" class="btn">Open Document</a>
+              {/each}
+            {/if}
+          {/if}
+        <label class="prev" for="checkbox-page6">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+          </svg>
+        </label>
+      </div>
+    </div>
+    <div class="page" id="page7">
+      {#if posts[5]}
+        <div class="front-page">
+          <h2 class="text-center font-bold text-3xl mb-4">{posts[5].title}</h2>
+          <div class="w-full h-[90%] overflow-y-auto">
+            {@html marked(posts[5].content)}
+          </div>
+          <label class="next" for="checkbox-page7">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+            </svg>
+          </label>
+        </div>
+      {/if}
+      <div class="back-page">
+        {#if posts[6]}
+          <h1 class="ml-2 mb-3 font-bold text-3xl">Attachments</h1>
+          {#if posts[6]["files"]}
+            {#each posts[6]["files"] as file}
+              <a href={file.path} target="_blank" class="btn">Open Document</a>
+            {/each}
+          {/if}
+        {/if}
+        <label class="prev" for="checkbox-page7">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+          </svg>
+        </label>
+      </div>
+    </div>
+    <div class="page" id="page8">
+      {#if posts[6]}
+        <div class="front-page">
+          <h2 class="text-center font-bold text-3xl mb-4">{posts[6].title}</h2>
+          <div class="w-full h-[90%] overflow-y-auto">
+            {@html marked(posts[6].content)}
+          </div>
+          <label class="next" for="checkbox-page8">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+            </svg>
+          </label>
+        </div>
+      {/if}
+      <div class="back-page">
+        {#if posts[7]}
+          <h1 class="ml-2 mb-3 font-bold text-3xl">Attachments</h1>
+          {#if posts[7]["files"]}
+            {#each posts[7]["files"] as file}
+              <a href={file.path} target="_blank" class="btn">Open Document</a>
+            {/each}
+          {/if}
+        {/if}
+        <label class="prev" for="checkbox-page8">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+          </svg>
+        </label>
+      </div>
+    </div>
+    <div class="page" id="page9">
+      {#if posts[7]}
+        <div class="front-page">
+          <h2 class="text-center font-bold text-3xl mb-4">{posts[7].title}</h2>
+          <div class="w-full h-[90%] overflow-y-auto">
+            {@html marked(posts[7].content)}
+          </div>
+          <label class="next" for="checkbox-page9">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+            </svg>
+          </label>
+        </div>
+      {/if}
+      <div class="back-page">
+        {#if posts[8]}
+          <h1 class="ml-2 mb-3 font-bold text-3xl">Attachments</h1>
+          {#if posts[8]["files"]}
+            {#each posts[8]["files"] as file}
+              <a href={file.path} target="_blank" class="btn">Open Document</a>
+            {/each}
+          {/if}
+        {/if}
+        <label class="prev" for="checkbox-page9">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+          </svg>
+        </label>
+      </div>
+    </div>
+    <div class="page" id="page10">
+      {#if posts[8]}
+        <div class="front-page">
+          <h2 class="text-center font-bold text-3xl mb-4">{posts[8].title}</h2>
+          <div class="w-full h-[90%] overflow-y-auto">
+            {@html marked(posts[8].content)}
+          </div>
+          <label class="next" for="checkbox-page10">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+            </svg>
+          </label>
+        </div>
+      {/if}
+      <div class="back-page">
+        {#if posts[9]}
+          <h1 class="ml-2 mb-3 font-bold text-3xl">Attachments</h1>
+          {#if posts[9]["files"]}
+            {#each posts[9]["files"] as file}
+              <a href={file.path} target="_blank" class="btn">Open Document</a>
+            {/each}
+          {/if}
+        {/if}
+        <label class="prev" for="checkbox-page10">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+          </svg>
+        </label>
+      </div>
+    </div>
+    <div class="page" id="page11">
+      {#if posts[9]}
+        <div class="front-page">
+          <h2 class="text-center font-bold text-3xl mb-4">{posts[9].title}</h2>
+          <div class="w-full h-[90%] overflow-y-auto">
+            {@html marked(posts[9].content)}
+          </div>
+          <label class="next" for="checkbox-page11">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+            </svg>
+          </label>
+        </div>
+      {/if}
+      <div class="back-page">
+        {#if posts[10]}
+          <h1 class="ml-2 mb-3 font-bold text-3xl">Attachments</h1>
+          {#if posts[10]["files"]}
+            {#each posts[10]["files"] as file}
+              <a href={file.path} target="_blank" class="btn">Open Document</a>
+            {/each}
+          {/if}
+        {/if}
+        <label class="prev" for="checkbox-page11">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+          </svg>
+        </label>
+      </div>
+    </div>
+    <div class="page" id="page12">
+      {#if posts[10]}
+        <div class="front-page">
+          <h2 class="text-center font-bold text-3xl mb-4">{posts[10].title}</h2>
+          <div class="w-full h-[90%] overflow-y-auto">
+            {@html marked(posts[10].content)}
+          </div>
+          <label class="next" for="checkbox-page12">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+            </svg>
+          </label>
+        </div>
+      {/if}
+      <div class="back-page">
+        {#if posts[11]}
+          <h1 class="ml-2 mb-3 font-bold text-3xl">Attachments</h1>
+          {#if posts[11]["files"]}
+            {#each posts[11]["files"] as file}
+              <a href={file.path} target="_blank" class="btn">Open Document</a>
+            {/each}
+          {/if}
+        {/if}
+        <label class="prev" for="checkbox-page12">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+          </svg>
+        </label>
+      </div>
+    </div>
+    <div class="page" id="page13">
+      {#if posts[11]}
+        <div class="front-page">
+          <h2 class="text-center font-bold text-3xl mb-4">{posts[11].title}</h2>
+          <div class="w-full h-[90%] overflow-y-auto">
+            {@html marked(posts[11].content)}
+          </div>
+          <label class="next" for="checkbox-page13">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+            </svg>
+          </label>
+        </div>
+      {/if}
+      {#if posts[12]}
+        <div class="back-page">
+          <h1 class="ml-2 mb-3 font-bold text-3xl">Attachments</h1>
+          {#if posts[12]["files"]}
+            {#each posts[12]["files"] as file}
+            <a href={file.path} target="_blank" class="btn">Open Document</a>
+          {/each}
+          {/if}
+          <label class="prev" for="checkbox-page13">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+            </svg>
+          </label>
+        </div>
+      {/if}
+    </div>
+    <div class="page" id="page14">
+      {#if posts[12]}
+        <div class="front-page">
+          <h2 class="text-center font-bold text-3xl mb-4">{posts[12].title}</h2>
+          <div class="w-full h-[90%] overflow-y-auto">
+            {@html marked(posts[12].content)}
+          </div>
+        </div>
+      {/if}
     </div>
     <div class="back-cover"></div>
   </div>
 </main>
-
-<style>
-  main {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .book {
-    width: 32.5rem;
-    height: 40rem;
-    position: relative;
-    transition-duration: 1s;
-    perspective: 1500;
-  }
-
-  input[type="checkbox"] {
-    display: none;
-  }
-
-  .cover, .back-cover {
-    background: linear-gradient(45deg,  #8b868d 0%, #f2ebf4 100%);
-    width: 100%;
-    height: 100%;
-    border-radius: 0 15px 15px 0;
-    box-shadow: 0 0 5px rgb(41, 41, 41);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transform-origin: center left;
-  }
-  .cover {
-    position: absolute;
-    z-index: 4;
-    transition: transform 1s;
-  }
-  .cover label {
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-  }
-  .back-cover {
-    position: relative;
-    z-index: -1;
-  }
-  .page {
-    position: absolute;
-    background-color: white;
-    width: 31.5rem;
-    height: 38rem;
-    border-radius: 0 15px 15px 0;
-    margin-top: 1rem;
-    transform-origin: left;
-    transform-style: preserve-3d;
-    transform: rotateY(0deg);
-    transition-duration: 1.5s;
-  }
-
-  .front-page {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    box-sizing: border-box;
-    padding: 2rem;
-  }
-
-  .back-page {
-    transform: rotateY(180deg);
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    box-sizing: border-box;
-    padding: 2rem;
-    z-index: 99;
-  }
-
-  .next, .prev {
-    position: absolute;
-    bottom: 1em;
-    cursor: pointer;
-  }
-
-  .next {
-    right: 1em;
-  }
-
-  .prev {
-    left: 1em;
-  }
-
-  #page1 {
-    z-index: 3;
-  }
-
-  #page2 {
-    z-index: 2;
-  }
-
-  #page3 {
-    z-index: 1;
-  }
-
-  #checkbox-cover:checked ~ .book {
-    transform: translateX(200px);
-  }
-
-  #checkbox-cover:checked ~ .book .cover {
-    transition: transform 1.5s, z-index 0.5s 0.5s;
-    transform: rotateY(-180deg);
-    z-index: 1;
-  }
-  #checkbox-cover:checked ~ .book .cover label h1 {
-    display: none;
-  }
-
-  #checkbox-cover:checked ~ .book .page {
-    box-shadow: 0 0 3px rgb(99, 98, 98);
-  }
-
-  #checkbox-page1:checked ~ .book #page1 {
-    transform: rotateY(-180deg);
-    z-index: 2;
-  }
-  
-  #checkbox-page2:checked ~ .book #page2 {
-    transform: rotateY(-180deg);
-    z-index: 3;
-  }
-</style>

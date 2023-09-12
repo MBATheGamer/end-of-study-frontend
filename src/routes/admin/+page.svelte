@@ -1,3 +1,7 @@
+<script>
+  import { administrator } from "$lib/store/stores";
+</script>
+
 <svelte:head>
-  <title>Admin</title>
+  <title>{$administrator ? "Admin" : "Not Found"}</title>
 </svelte:head>

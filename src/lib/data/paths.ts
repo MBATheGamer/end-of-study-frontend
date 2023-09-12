@@ -36,10 +36,6 @@ export const authPaths: Path[] = [
 
 export const adminPath: Path[] = [
   {
-    path: "dashboard",
-    label: "Dashboard"
-  },
-  {
     path: "users",
     label: "Users"
   },

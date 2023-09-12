@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-  <title>{$authenticated ? "Profil Setting" : "Not Found"}</title>
+  <title>{$authenticated ? "View Profil" : "Not Found"}</title>
 </svelte:head>
 
 <slot />

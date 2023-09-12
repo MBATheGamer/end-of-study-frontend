@@ -72,7 +72,7 @@
       </div>      
     </div>
 
-    <div class="mt-2 mb-4 h-[80%] xl:h-[87%] overflow-y-auto">
+    <div class="mt-2 mb-4 h-[80%] overflow-y-auto">
       <table class="table table-pin-rows">
         <thead>
           <tr>

@@ -101,5 +101,18 @@ export type Search = {
 export type PostRequest = {
   title: string;
   content: string;
-  files?: FileList;
+  subjectId: number;
+  files?: string[];
+}
+
+export type PostResponse = {
+  title: string;
+  content: string;
+  subjectId: number;
+  files?: FileResponse[];
+}
+
+export type FileResponse = {
+  id: number;
+  path: string;
 }

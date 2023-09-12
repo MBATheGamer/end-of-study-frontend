@@ -11,8 +11,8 @@ const config = {
 			$components: "src/components",
 			$utils: "src/utils",
 			$icons: "src/icons",
-			$main: "src",
-			$assets: "src/assets"
+			$assets: "src/assets",
+			$styles: "src/styles"
 		}
 	}
 };

@@ -3,6 +3,10 @@
   import axios from "$lib/axios/axios";
   import { subjectValidator } from "$lib/common-functions";
   import type { PageData } from "./$types";
+  import "$styles/book.css";
+  import Textarea from "$components/Textarea.svelte";
+  import SelectOptions from "$components/SelectOptions.svelte";
+  import Input from "$components/Input.svelte";
 
   export let data: PageData;
   const {id, subject, classrooms} = data;
@@ -30,52 +34,21 @@
   <div class="book">
     <div class="cover">
       <label for="checkbox-cover">
-        <h1 class="absolute text-5xl font-bold top-36 left-8">{subject.name}</h1>
+        <h1 class="absolute text-5xl text-black font-bold top-36 left-8">{subject.name}</h1>
       </label>
     </div>
     <div class="page" id="page1">
       <div class="front-page">
         <form>
-          <div class="relative m-2">
-            <input bind:value={subject.name} type="text" id="name" class="block px-3 pb-3 pt-6 w-full bg-transparent text-accent-content font-semibold rounded-lg border-2 border-base-content appearance-none focus:outline-none peer" placeholder=" " required />
-            <label for="name" class="absolute left-2 text-md font-semibold text-accent-content transform duration-300 top-5 scale-75 -translate-y-4 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-5 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:font-bold">
-              Name
-            </label>
-          </div>
+          <Input bind:value={subject.name} id="name" label="Name*" type="text" required={true} />
+            
           <div class="flex my-2">
-            <div class="relative w-full mx-2">
-              <input bind:value={subject.multiplier} type="number" step="0.5" id="multiplier" class="block px-3 pb-3 pt-6 bg-transparent text-accent-content font-semibold w-full rounded-lg border-2 border-base-content appearance-none focus:outline-none peer" placeholder=" " required />
-              <label for="multiplier" class="absolute left-2 text-md font-semibold text-accent-content transform duration-300 top-5 scale-75 -translate-y-4 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-5 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:font-bold">
-                Multiplier
-              </label>
-            </div>
-            <div class="relative w-full mx-2">
-              <input value={subject.credit} type="number" id="credit" class="block px-3 pb-3 pt-6 w-full bg-transparent disabled:bg-base-content/25 rounded-lg border-2 border-base-content appearance-none focus:outline-none" placeholder=" " disabled />
-              <label for="credit" class="absolute left-2 text-md font-semibold text-accent-content transform duration-300 top-5 scale-75 -translate-y-4 origin-[0] px-2">
-                Credit
-              </label>
-            </div>
+            <Input bind:value={subject.multiplier} id="multiplier" label="Multiplier*" type="number" step={0.5} required={true} />
+            <Input value={subject.credit} id="credit" label="Credit*" type="number" required={true} disabled />
           </div>
 
-          <div class="flex my-2">
-            <div class="relative w-full mx-2">
-              <select bind:value={classroomId} class="select w-full h-[64px] border-base-content border-2" required>
-                <option disabled value={0}>Pick a Classroom</option>
-                {#each classrooms as classroom}
-                  <option value={classroom.id}>
-                    {classroom.name}
-                  </option>
-                {/each}
-              </select>
-            </div>
-          </div>
-
-          <div class="relative m-2">
-            <textarea bind:value={subject.description} id="description" class="block px-3 pb-3 pt-6 w-full bg-transparent rounded-lg border-2 border-base-content appearance-none focus:outline-none peer resize-none" placeholder=" " rows="8" />
-            <label for="description" class="absolute left-2 text-md font-semibold text-accent-content transform duration-300 top-5 scale-75 -translate-y-4 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-9 peer-focus:top-5 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:font-bold">
-              Description (Optional)
-            </label>
-          </div>
+          <SelectOptions bind:id={subject.classroomId} items={classrooms} label={"Pick a Classroom"} required={true} />
+          <Textarea bind:value={subject.description} rows={6} label={"Description"} />
 
           <div class="flex justify-end text-center space-x-2 me-2 absolute bottom-8 right-10">
             <a class="btn btn-outline btn-secondary rounded-3" href="/courses">
@@ -91,97 +64,3 @@
     <div class="back-cover"></div>
   </div>
 </main>
-
-<style>
-  main {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .book {
-    width: 32.5rem;
-    height: 40rem;
-    position: relative;
-    transition-duration: 1s;
-    perspective: 1500;
-  }
-
-  input[type="checkbox"] {
-    display: none;
-  }
-
-  .cover, .back-cover {
-    background: linear-gradient(45deg,  #8b868d 0%, #f2ebf4 100%);
-    width: 100%;
-    height: 100%;
-    border-radius: 0 15px 15px 0;
-    box-shadow: 0 0 5px rgb(41, 41, 41);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transform-origin: center left;
-  }
-  .cover {
-    position: absolute;
-    z-index: 4;
-    transition: transform 1s;
-  }
-  .cover label {
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-  }
-  .back-cover {
-    position: relative;
-    z-index: -1;
-  }
-  .page {
-    position: absolute;
-    background-color: white;
-    width: 31.5rem;
-    height: 38rem;
-    border-radius: 0 15px 15px 0;
-    margin-top: 1rem;
-    transform-origin: left;
-    transform-style: preserve-3d;
-    transform: rotateY(0deg);
-    transition-duration: 1.5s;
-  }
-
-  .front-page {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    box-sizing: border-box;
-    padding: 2rem;
-  }
-
-  #page1 {
-    z-index: 3;
-  }
-
-  #checkbox-cover:checked ~ .book {
-    transform: translateX(200px);
-  }
-
-  #checkbox-cover:checked ~ .book .cover {
-    transition: transform 1.5s, z-index 0.5s 0.5s;
-    transform: rotateY(-180deg);
-    z-index: 1;
-  }
-  #checkbox-cover:checked ~ .book .cover label h1 {
-    display: none;
-  }
-
-  #checkbox-cover:checked ~ .book .page {
-    box-shadow: 0 0 3px rgb(99, 98, 98);
-  }
-
-  #checkbox-page1:checked ~ .book #page1 {
-    transform: rotateY(-180deg);
-    z-index: 2;
-  }
-</style>

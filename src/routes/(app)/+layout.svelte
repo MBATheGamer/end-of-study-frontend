@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from "$app/stores";
-	import "$main/app.css";
+	import "$styles/app.css";
 	import { paths } from "$lib/data/paths";
 	
 	$: getPath = (path: string) => {

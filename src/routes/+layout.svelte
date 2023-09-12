@@ -3,7 +3,7 @@
 	import axios from "$lib/axios/axios";
 	import { administrator, authenticated, userStore } from "$lib/store/stores";
 	import { onMount } from "svelte";
-	import "$main/app.css";
+	import "$styles/app.css";
 
   onMount(async () => {
 		const { data } = await axios.get("user");

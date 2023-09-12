@@ -1,12 +1,12 @@
 <script lang="ts">
-    import Camera from "$icons/Camera.svelte";
-    import Comment from "$icons/Comment.svelte";
-    import HangOn from "$icons/HangOn.svelte";
+  import Camera from "$icons/Camera.svelte";
+  import Comment from "$icons/Comment.svelte";
+  import HangOn from "$icons/HangOn.svelte";
   import Microphone from "$icons/Microphone.svelte";
-    import Participants from "$icons/Participants.svelte";
-    import ScreenShare from "$icons/ScreenShare.svelte";
-    import WhiteBoard from "$icons/WhiteBoard.svelte";
-import { userStore } from "$lib/store/stores";
+  import Participants from "$icons/Participants.svelte";
+  import ScreenShare from "$icons/ScreenShare.svelte";
+  import WhiteBoard from "$icons/WhiteBoard.svelte";
+  import { userStore } from "$lib/store/stores";
 
   let comments = false;
   let microphone = false;
@@ -51,6 +51,7 @@ import { userStore } from "$lib/store/stores";
     </div>
   </div>
 </div>
+
 <style>
   .bg-gray {
     background-color: #EEEEEE;

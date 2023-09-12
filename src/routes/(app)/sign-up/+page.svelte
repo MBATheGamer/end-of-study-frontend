@@ -58,13 +58,13 @@
           <label for="password" class="label">
             <span class="text-base label-text">Password</span>
           </label>
-          <input bind:value={user.password} id="password" type="text" placeholder="Password" class="w-full input input-bordered" required />
+          <input bind:value={user.password} id="password" type="password" placeholder="Password" class="w-full input input-bordered" required />
         </div>
         <div class="w-full ms-2">
           <label for="passwordConfirm" class="label">
             <span class="text-base label-text">Confirm Password</span>
           </label>
-          <input bind:value={user.passwordConfirm} id="passwordConfirm" type="text" placeholder="Confirm Password" class="w-full input input-bordered" required />
+          <input bind:value={user.passwordConfirm} id="passwordConfirm" type="password" placeholder="Confirm Password" class="w-full input input-bordered" required />
         </div>
       </div>
       <div class="pt-2">
