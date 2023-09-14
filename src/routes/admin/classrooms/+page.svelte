@@ -77,7 +77,7 @@
       </div>      
     </div>
 
-    <div class="mt-2 mb-4 h-[80%] overflow-y-auto">
+    <div class="mt-2 mb-4 h-[80%] 2xl:h-[87%] overflow-y-auto">
       <table class="table table-pin-rows">
         <thead>
           <tr>
@@ -135,7 +135,7 @@
       </table>
     </div>
 
-    <div class="w-full grid grid-cols-4">
+    <div class="absolute bottom-4 w-full grid grid-cols-4">
       <div>
         <select bind:value={$limitStore} class="select select-bordered" on:change={() => {
           pageStore.set(1);

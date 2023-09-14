@@ -2,8 +2,7 @@
   import { authenticated } from "$lib/store/stores";
   import type { PageData } from "./$types";
   import "$styles/book.css";
-    import Input from "$components/Input.svelte";
-    import SelectOptions from "$components/SelectOptions.svelte";
+  import Input from "$components/Input.svelte";
 
   export let data: PageData;
 
@@ -17,13 +16,13 @@
 
 <main class="mx-auto">
   <input type="checkbox" id="checkbox-cover">
-  <div class="book">
+  <div class="book w-[30rem] h-[36rem] 2xl:w-[40rem] 2xl:h-[48rem]">
     <div class="cover">
       <label for="checkbox-cover">
         <h1 class="absolute text-5xl text-black font-bold top-36 left-8">View Profile</h1>
       </label>
     </div>
-    <div class="page" id="page1">
+    <div class="page w-[30rem] h-[36rem] 2xl:w-[38rem] 2xl:h-[45.6rem] 2xl:my-4" id="page1">
       <div class="front-page">
         <Input value={user.cin} type="text" id="cin" label="C.I.N.*" disabled={true} />
 

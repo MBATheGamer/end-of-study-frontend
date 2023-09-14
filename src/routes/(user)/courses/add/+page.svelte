@@ -40,13 +40,13 @@
 
 <main class="mx-auto">
   <input type="checkbox" id="checkbox-cover">
-  <div class="book">
+  <div class="book w-[30rem] h-[36rem] 2xl:w-[40rem] 2xl:h-[48rem]">
     <div class="cover">
       <label for="checkbox-cover">
         <h1 class="absolute text-5xl text-black font-bold top-36 left-8">Add Course</h1>
       </label>
     </div>
-    <div class="page" id="page1">
+    <div class="page w-[30rem] h-[36rem] 2xl:w-[38rem] 2xl:h-[45.6rem] 2xl:my-4" id="page1">
       <div class="front-page">
         <form>
           <Input bind:value={subject.name} id="name" label="Name*" type="text" required={true} />
@@ -57,9 +57,9 @@
           </div>
           
           <SelectOptions bind:id={subject.classroomId} items={classrooms} label={"Pick a Classroom"} required={true} />
-          <Textarea bind:value={subject.description} rows={6} label={"Description"} />
+          <Textarea bind:value={subject.description} rows={6} xlrows={6} label={"Description"} />
 
-          <div class="flex justify-end text-center space-x-2 me-2 absolute bottom-8 right-10">
+          <div class="flex justify-end text-center space-x-2 me-2 absolute bottom-10 right-4">
             <a class="btn btn-outline btn-secondary rounded-3" href="/courses">
               Close
             </a>

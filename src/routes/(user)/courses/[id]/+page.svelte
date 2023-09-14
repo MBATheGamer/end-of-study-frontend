@@ -63,13 +63,13 @@
   <input type="checkbox" id="checkbox-page11">
   <input type="checkbox" id="checkbox-page12">
   <input type="checkbox" id="checkbox-page13">
-  <div class="book">
+  <div class="book w-[30rem] h-[36rem] 2xl:w-[40rem] 2xl:h-[48rem]">
     <div class="cover">
       <label for="checkbox-cover">
         <h1 class="absolute text-5xl text-black font-bold top-36 left-8">{$subjectStore.name}</h1>
       </label>
     </div>
-    <div class="page" id="page1">
+    <div class="page w-[30rem] h-[36rem] 2xl:w-[38rem] 2xl:h-[45.6rem] 2xl:my-4" id="page1">
       <div class="front-page">
         {#if $roleIdStore === 2}
           <form>
@@ -80,7 +80,7 @@
               <input  bind:files multiple type="file" class="file-input bg-white file-input-bordered w-full disabled:bg-base-content/25" {disabled} />
             </div>
 
-            <div class="flex justify-end text-center space-x-2 absolute bottom-8 right-6">
+            <div class="flex justify-end text-center space-x-2 absolute bottom-10 right-4">
               <button class="btn btn-primary rounded-3" on:click={submit}>
                 Post
               </button>
@@ -115,7 +115,7 @@
         </label>
       </div>
     </div>
-    <div class="page" id="page2">
+    <div class="page w-[30rem] h-[36rem] 2xl:w-[38rem] 2xl:h-[45.6rem] 2xl:my-4" id="page2">
       {#if posts[0]}
         <div class="front-page">
           <h2 class="text-center font-bold text-3xl mb-4">{posts[0].title}</h2>
@@ -145,7 +145,7 @@
         </label>
       </div>
     </div>
-    <div class="page" id="page3">
+    <div class="page w-[30rem] h-[36rem] 2xl:w-[38rem] 2xl:h-[45.6rem] 2xl:my-4" id="page3">
       {#if posts[1]}
         <div class="front-page">
           <h2 class="text-center font-bold text-3xl mb-4">{posts[1].title}</h2>
@@ -175,7 +175,7 @@
         </label>
       </div>
     </div>
-    <div class="page" id="page4">
+    <div class="page w-[30rem] h-[36rem] 2xl:w-[38rem] 2xl:h-[45.6rem] 2xl:my-4" id="page4">
       {#if posts[2]}
         <div class="front-page">
           <h2 class="text-center font-bold text-3xl mb-4">{posts[2].title}</h2>
@@ -205,7 +205,7 @@
         </label>
       </div>
     </div>
-    <div class="page" id="page5">
+    <div class="page w-[30rem] h-[36rem] 2xl:w-[38rem] 2xl:h-[45.6rem] 2xl:my-4" id="page5">
       {#if posts[3]}
         <div class="front-page">
           <h2 class="text-center font-bold text-3xl mb-4">{posts[3].title}</h2>
@@ -235,7 +235,7 @@
         </label>
       </div>
     </div>
-    <div class="page" id="page6">
+    <div class="page w-[30rem] h-[36rem] 2xl:w-[38rem] 2xl:h-[45.6rem] 2xl:my-4" id="page6">
       {#if posts[4]}
         <div class="front-page">
           <h2 class="text-center font-bold text-3xl mb-4">{posts[4].title}</h2>
@@ -265,7 +265,7 @@
         </label>
       </div>
     </div>
-    <div class="page" id="page7">
+    <div class="page w-[30rem] h-[36rem] 2xl:w-[38rem] 2xl:h-[45.6rem] 2xl:my-4" id="page7">
       {#if posts[5]}
         <div class="front-page">
           <h2 class="text-center font-bold text-3xl mb-4">{posts[5].title}</h2>
@@ -295,7 +295,7 @@
         </label>
       </div>
     </div>
-    <div class="page" id="page8">
+    <div class="page w-[30rem] h-[36rem] 2xl:w-[38rem] 2xl:h-[45.6rem] 2xl:my-4" id="page8">
       {#if posts[6]}
         <div class="front-page">
           <h2 class="text-center font-bold text-3xl mb-4">{posts[6].title}</h2>
@@ -325,7 +325,7 @@
         </label>
       </div>
     </div>
-    <div class="page" id="page9">
+    <div class="page w-[30rem] h-[36rem] 2xl:w-[38rem] 2xl:h-[45.6rem] 2xl:my-4" id="page9">
       {#if posts[7]}
         <div class="front-page">
           <h2 class="text-center font-bold text-3xl mb-4">{posts[7].title}</h2>
@@ -355,7 +355,7 @@
         </label>
       </div>
     </div>
-    <div class="page" id="page10">
+    <div class="page w-[30rem] h-[36rem] 2xl:w-[38rem] 2xl:h-[45.6rem] 2xl:my-4" id="page10">
       {#if posts[8]}
         <div class="front-page">
           <h2 class="text-center font-bold text-3xl mb-4">{posts[8].title}</h2>
@@ -385,7 +385,7 @@
         </label>
       </div>
     </div>
-    <div class="page" id="page11">
+    <div class="page w-[30rem] h-[36rem] 2xl:w-[38rem] 2xl:h-[45.6rem] 2xl:my-4" id="page11">
       {#if posts[9]}
         <div class="front-page">
           <h2 class="text-center font-bold text-3xl mb-4">{posts[9].title}</h2>
@@ -415,7 +415,7 @@
         </label>
       </div>
     </div>
-    <div class="page" id="page12">
+    <div class="page w-[30rem] h-[36rem] 2xl:w-[38rem] 2xl:h-[45.6rem] 2xl:my-4" id="page12">
       {#if posts[10]}
         <div class="front-page">
           <h2 class="text-center font-bold text-3xl mb-4">{posts[10].title}</h2>
@@ -445,7 +445,7 @@
         </label>
       </div>
     </div>
-    <div class="page" id="page13">
+    <div class="page w-[30rem] h-[36rem] 2xl:w-[38rem] 2xl:h-[45.6rem] 2xl:my-4" id="page13">
       {#if posts[11]}
         <div class="front-page">
           <h2 class="text-center font-bold text-3xl mb-4">{posts[11].title}</h2>
@@ -475,7 +475,7 @@
         </div>
       {/if}
     </div>
-    <div class="page" id="page14">
+    <div class="page w-[30rem] h-[36rem] 2xl:w-[38rem] 2xl:h-[45.6rem] 2xl:my-4" id="page14">
       {#if posts[12]}
         <div class="front-page">
           <h2 class="text-center font-bold text-3xl mb-4">{posts[12].title}</h2>

@@ -2,6 +2,7 @@
   import { authenticated } from "$lib/store/stores";
   import type { PageData } from "./$types";
   import "$styles/book.css";
+  import Input from "$components/Input.svelte";
 
   export let data: PageData;
 
@@ -15,78 +16,34 @@
 
 <main class="mx-auto">
   <input type="checkbox" id="checkbox-cover">
-  <div class="book">
+  <div class="book w-[30rem] h-[36rem] 2xl:w-[40rem] 2xl:h-[48rem]">
     <div class="cover">
       <label for="checkbox-cover">
         <h1 class="absolute text-5xl text-black font-bold top-36 left-8">View Profile</h1>
       </label>
     </div>
-    <div class="page" id="page1">
+    <div class="page w-[30rem] h-[36rem] 2xl:w-[38rem] 2xl:h-[45.6rem] 2xl:my-4" id="page1">
       <div class="front-page">
-        <div class="relative m-2">
-          <input value={user.cin} type="text" id="cin" class="block px-3 pb-3 pt-6 w-full bg-transparent rounded-lg border-2 border-base-content appearance-none focus:outline-none" placeholder=" " disabled />
-          <label for="cin" class="absolute left-2 text-md font-semibold  text-black transform duration-300 top-5 scale-75 -translate-y-4 origin-[0] px-2">
-            C.I.N.
-          </label>
-        </div>
-        <div class="flex my-2">
-          <div class="relative w-full mx-2">
-            <input value={user.firstName} type="text" id="firstName" class="block px-3 pb-3 pt-6 bg-transparent  text-black font-semibold w-full rounded-lg border-2 border-base-content appearance-none focus:outline-none peer" placeholder=" " disabled />
-            <label for="firstName" class="absolute left-2 text-md font-semibold  text-black transform duration-300 top-5 scale-75 -translate-y-4 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-5 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:font-bold">
-              First Name
-            </label>
-          </div>
-          <div class="relative w-full mx-2">
-            <input value={user.lastName} type="text" id="lastName" class="block px-3 pb-3 pt-6 bg-transparent  text-black font-semibold w-full rounded-lg border-2 border-base-content appearance-none focus:outline-none peer" placeholder=" " disabled />
-            <label for="lastName" class="absolute left-2 text-md font-semibold  text-black transform duration-300 top-5 scale-75 -translate-y-4 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-5 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:font-bold">
-              Last Name
-            </label>
-          </div>
-        </div>
-        <div class="relative m-2">
-          <input value={user.email} type="text" id="email" class="block px-3 pb-3 pt-6 w-full bg-transparent rounded-lg border-2 border-base-content appearance-none focus:outline-none" placeholder=" " disabled />
-          <label for="email" class="absolute left-2 text-md font-semibold  text-black transform duration-300 top-5 scale-75 -translate-y-4 origin-[0] px-2">
-            Email
-          </label>
-        </div>
-        <div class="flex my-2">
-          <div class="relative w-full mx-2">
-            <input value={user.dateOfBirth} type="date" id="dateOfBirth" class="block px-3 pb-3 pt-6 bg-transparent  text-black font-semibold w-full rounded-lg border-2 border-base-content appearance-none focus:outline-none peer" placeholder=" " disabled />
-            <label for="dateOfBirth" class="absolute left-2 text-md font-semibold  text-black transform duration-300 top-5 scale-75 -translate-y-4 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-5 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:font-bold">
-              Date of Birth
-            </label>
-          </div>
-          <div class="relative w-full mx-2">
-            <input value={user.mobile} type="text" id="mobile" class="block px-3 pb-3 pt-6 bg-transparent  text-black font-semibold w-full rounded-lg border-2 border-base-content appearance-none focus:outline-none peer" placeholder=" " disabled />
-            <label for="mobile" class="absolute left-2 text-md font-semibold  text-black transform duration-300 top-5 scale-75 -translate-y-4 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-5 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:font-bold">
-              Mobile Number
-            </label>
-          </div>
-        </div>
-        <div class="relative m-2">
-          <input value={user.address} type="text" id="address" class="block px-3 pb-3 pt-6 w-full bg-transparent  text-black font-semibold rounded-lg border-2 border-base-content appearance-none focus:outline-none peer" placeholder=" " disabled />
-          <label for="address" class="absolute left-2 text-md font-semibold  text-black transform duration-300 top-5 scale-75 -translate-y-4 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-5 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:font-bold">
-            Address
-          </label>
+        <Input value={user.cin} type="text" id="cin" label="C.I.N.*" disabled={true} />
+
+        <div class="w-full flex">
+          <Input value={user.firstName} type="text" id="firstName" label="First Name*" disabled={true} />
+          <Input value={user.lastName} type="text" id="lastName" label="Last Name*" disabled={true} />
         </div>
 
+        <Input value={user.email} type="email" id="email" label="Email*" disabled={true} />
+
+        <div class="w-full flex">
+          <Input value={user.dateOfBirth} type="date" id="dateOfBirth" label="Date of Birth" disabled={true} />
+          <Input value={user.mobile} type="text" id="mobile" label="Mobile" disabled={true} />
+        </div>
+
+        <Input value={user.address} type="text" id="address" label="Address" disabled={true} />
+
         <div class="flex my-2">
-          <div class="relative w-full mx-2">
-            <select value={user.role.id} class="select w-full h-[64px] border-base-content border-2" disabled >
-                <option value={user.role.id}>
-                  {user.role.name}
-                </option>
-            </select>
-          </div>
-    
+          <Input value={user.role.name} type="text" id="role" label="Role" disabled={true} />
           {#if (user.role.id === 3)}
-            <div class="relative w-full mx-2">
-              <select value={user.classroom?.id} class="select w-full h-[64px] border-base-content border-2" disabled >
-                <option value={user.classroom?.id}>
-                  {user.classroom?.name}
-                </option>
-              </select>
-            </div>
+            <Input value={user.classroom?.name} type="text" id="classroom" label="Classroom" disabled={true} />
           {/if}
         </div>
       </div>

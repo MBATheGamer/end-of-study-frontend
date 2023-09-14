@@ -5,6 +5,7 @@
   import { userRequestFactory } from "$lib/user.factory";
   import type { PageData } from "./$types";
   import "$styles/book.css";
+  import Input from "$components/Input.svelte";
 
   export let data: PageData;
 
@@ -40,64 +41,33 @@
 <main class="mx-auto">
   <input type="checkbox" id="checkbox-cover">
   <input type="checkbox" id="checkbox-page1">
-  <div class="book">
+  <div class="book w-[30rem] h-[36rem] 2xl:w-[40rem] 2xl:h-[48rem]">
     <div class="cover">
       <label for="checkbox-cover">
         <h1 class="absolute text-5xl text-black font-bold top-36 left-8">Edit Profile</h1>
       </label>
     </div>
-    <div class="page" id="page1">
+    <div class="page w-[30rem] h-[36rem] 2xl:w-[38rem] 2xl:h-[45.6rem] 2xl:my-4" id="page1">
       <div class="front-page">
         <form>
           <h1 class="ml-2 mb-3 font-bold text-3xl">Edit Information</h1>
-          <div class="relative m-2">
-            <input value={userRequest.cin} type="text" id="cin" class="block px-3 pb-3 pt-6 w-full bg-transparent disabled:bg-base-content/25 rounded-lg border-2 border-base-content appearance-none focus:outline-none" placeholder=" " disabled />
-            <label for="cin" class="absolute left-2 text-md font-semibold  text-black transform duration-300 top-5 scale-75 -translate-y-4 origin-[0] px-2">
-              C.I.N.*
-            </label>
+          <Input bind:value={userRequest.cin} type="text" id="cin" label="C.I.N.*" required={true} />
+
+          <div class="w-full flex">
+            <Input bind:value={userRequest.firstName} type="text" id="firstName" label="First Name*" required={true} />
+            <Input bind:value={userRequest.lastName} type="text" id="lastName" label="Last Name*" required={true} />
           </div>
-          <div class="flex my-2">
-            <div class="relative w-full mx-2">
-              <input bind:value={userRequest.firstName} type="text" id="firstName" class="block px-3 pb-3 pt-6 bg-transparent  text-black font-semibold w-full rounded-lg border-2 border-base-content appearance-none focus:outline-none peer" placeholder=" " />
-              <label for="firstName" class="absolute left-2 text-md font-semibold  text-black transform duration-300 top-5 scale-75 -translate-y-4 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-5 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:font-bold">
-                First Name*
-              </label>
-            </div>
-            <div class="relative w-full mx-2">
-              <input bind:value={userRequest.lastName} type="text" id="lastName" class="block px-3 pb-3 pt-6 bg-transparent  text-black font-semibold w-full rounded-lg border-2 border-base-content appearance-none focus:outline-none peer" placeholder=" " />
-              <label for="lastName" class="absolute left-2 text-md font-semibold  text-black transform duration-300 top-5 scale-75 -translate-y-4 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-5 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:font-bold">
-                Last Name*
-              </label>
-            </div>
+
+          <Input bind:value={userRequest.email} type="email" id="email" label="Email*" required={true} />
+
+          <div class="w-full flex">
+            <Input bind:value={userRequest.dateOfBirth} type="date" id="dateOfBirth" label="Date of Birth" />
+            <Input bind:value={userRequest.mobile} type="text" id="mobile" label="Mobile" />
           </div>
-          <div class="relative m-2">
-            <input value={userRequest.email} type="text" id="email" class="block px-3 pb-3 pt-6 w-full bg-transparent disabled:bg-base-content/25 rounded-lg border-2 border-base-content appearance-none focus:outline-none" placeholder=" " disabled />
-            <label for="email" class="absolute left-2 text-md font-semibold  text-black transform duration-300 top-5 scale-75 -translate-y-4 origin-[0] px-2">
-              Email*
-            </label>
-          </div>
-          <div class="flex my-2">
-            <div class="relative w-full mx-2">
-              <input bind:value={userRequest.dateOfBirth} type="date" id="dateOfBirth" class="block px-3 pb-3 pt-6 bg-transparent  text-black font-semibold w-full rounded-lg border-2 border-base-content appearance-none focus:outline-none peer" placeholder=" " />
-              <label for="dateOfBirth" class="absolute left-2 text-md font-semibold  text-black transform duration-300 top-5 scale-75 -translate-y-4 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-5 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:font-bold">
-                Date of Birth
-              </label>
-            </div>
-            <div class="relative w-full mx-2">
-              <input bind:value={userRequest.mobile} type="text" id="mobile" class="block px-3 pb-3 pt-6 bg-transparent  text-black font-semibold w-full rounded-lg border-2 border-base-content appearance-none focus:outline-none peer" placeholder=" " />
-              <label for="mobile" class="absolute left-2 text-md font-semibold  text-black transform duration-300 top-5 scale-75 -translate-y-4 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-5 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:font-bold">
-                Mobile Number
-              </label>
-            </div>
-          </div>
-          <div class="relative m-2">
-            <input bind:value={userRequest.address} type="text" id="address" class="block px-3 pb-3 pt-6 w-full bg-transparent  text-black font-semibold rounded-lg border-2 border-base-content appearance-none focus:outline-none peer" placeholder=" " />
-            <label for="address" class="absolute left-2 text-md font-semibold  text-black transform duration-300 top-5 scale-75 -translate-y-4 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-5 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:font-bold">
-              Address
-            </label>
-          </div>
+
+          <Input bind:value={userRequest.address} type="text" id="address" label="Address"/>
       
-          <div class="flex justify-end text-center space-x-2 me-2 absolute bottom-8 right-10">
+          <div class="flex justify-end text-center space-x-2 me-2 absolute bottom-10 right-4">
             <a class="btn btn-outline btn-secondary rounded-3" href="/admin/users">
               Close
             </a>
@@ -121,24 +91,14 @@
         </label>
       </div>
     </div>
-    <div class="page" id="page2">
+    <div class="page w-[30rem] h-[36rem] 2xl:w-[38rem] 2xl:h-[45.6rem] 2xl:my-4" id="page2">
       <div class="front-page">
         <form>
           <h1 class="ml-2 mb-3 font-bold text-3xl">Edit Password</h1>
-          <div class="relative m-2">
-            <input bind:value={password.password} type="password" id="password"  class="block px-3 pb-3 pt-6 w-full bg-transparent  text-black font-semibold rounded-lg border-2 border-base-content appearance-none focus:outline-none peer" placeholder=" " />
-            <label for="password" class="absolute left-2 text-md font-semibold  text-black transform duration-300 top-5 scale-75 -translate-y-4 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-5 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:font-bold">
-              Password
-            </label>
-          </div>
-          <div class="relative m-2">
-            <input bind:value={password.passwordConfirm} type="password" id="password-confirm" class="block px-3 pb-3 pt-6 w-full bg-transparent  text-black font-semibold rounded-lg border-2 border-base-content appearance-none focus:outline-none peer" placeholder=" " />
-            <label for="password-confirm" class="absolute left-2 text-md font-semibold  text-black transform duration-300 top-5 scale-75 -translate-y-4 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-5 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:font-bold">
-              Confirm Password
-            </label>
-          </div>
+          <Input bind:value={password.password} type="password" id="password" label="Password"/>
+          <Input bind:value={password.passwordConfirm} type="password" id="passwordConfirm" label="Confirm Password"/>
       
-          <div class="flex justify-end text-center space-x-2 me-2 absolute bottom-8 right-10">
+          <div class="flex justify-end text-center space-x-2 me-2 absolute bottom-10 right-4">
             <a class="btn btn-outline btn-secondary rounded-3" href="/admin/users">
               Close
             </a>

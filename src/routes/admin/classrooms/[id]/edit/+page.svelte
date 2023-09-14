@@ -4,6 +4,9 @@
   import { classroomValidator } from "$lib/common-functions";
   import type { PageData } from "./$types";
   import "$styles/book.css";
+  import Textarea from "$components/Textarea.svelte";
+  import SelectOptions from "$components/SelectOptions.svelte";
+  import Input from "$components/Input.svelte";
 
   export let data: PageData;
 
@@ -23,41 +26,22 @@
 
 <main class="mx-auto">
   <input type="checkbox" id="checkbox-cover">
-  <div class="book">
+  <div class="book w-[30rem] h-[36rem] 2xl:w-[40rem] 2xl:h-[48rem]">
     <div class="cover">
       <label for="checkbox-cover">
         <h1 class="absolute text-5xl text-black font-bold top-36 left-8">Edit Classroom #{id}</h1>
       </label>
     </div>
-    <div class="page" id="page1">
+    <div class="page w-[30rem] h-[36rem] 2xl:w-[38rem] 2xl:h-[45.6rem] 2xl:my-4" id="page1">
       <div class="front-page">
         <form>
-          <div class="relative m-2">
-            <input bind:value={classroom.name} type="text" id="name" class="block px-3 pb-3 pt-6 w-full bg-transparent  text-black font-semibold rounded-lg border-2 border-base-content appearance-none focus:outline-none peer" placeholder=" " required />
-            <label for="name" class="absolute left-2 text-md font-semibold  text-black transform duration-300 top-5 scale-75 -translate-y-4 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-5 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:font-bold">
-              Name*
-            </label>
-          </div>
+          <Input bind:value={classroom.name} id="name" label="Name*" type="text" required={true} />
 
-          <div class="relative m-2">
-            <select bind:value={departmentId} class="select w-full h-[64px] border-base-content border-2" required>
-              <option disabled value={0}>Pick a Department</option>
-              {#each departments as department}
-                <option value={department.id}>
-                  {department.name}
-                </option>
-              {/each}
-            </select>
-          </div>
+          <SelectOptions bind:id={departmentId} items={departments} label={"Pick a Department"} required={true} />
 
-          <div class="relative m-2">
-            <textarea bind:value={classroom.description} id="description" class="block px-3 pb-3 pt-6 w-full bg-transparent rounded-lg border-2 border-base-content appearance-none focus:outline-none peer resize-none" placeholder=" " rows="10" />
-            <label for="description" class="absolute left-2 text-md font-semibold  text-black transform duration-300 top-5 scale-75 -translate-y-4 origin-[0] px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-9 peer-focus:top-5 peer-focus:scale-75 peer-focus:-translate-y-4 peer-focus:font-bold">
-              Description
-            </label>
-          </div>
+          <Textarea bind:value={classroom.description} rows={10} xlrows={17} label={"Description"} />
 
-          <div class="flex justify-end text-center space-x-2 me-2 absolute bottom-8 right-10">
+          <div class="flex justify-end text-center space-x-2 me-2 absolute bottom-10 right-4">
             <a class="btn btn-outline btn-secondary rounded-3" href="/admin/classrooms">
               Close
             </a>

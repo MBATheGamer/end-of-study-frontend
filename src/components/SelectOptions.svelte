@@ -1,5 +1,5 @@
 <script lang="ts">
-  export let id: number;
+  export let id: number | undefined;
   export let items: any[];
   export let isTeacher = false;
   export let label: string;
