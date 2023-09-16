@@ -26,7 +26,7 @@
 <div class="h-100 d-flex">
   <div class="h-100 w-25 px-5 pt-5 bg-gray d-flex flex-column">
     <h2 class="mb-5 text-start">Join Meeting</h2>
-    <a class="btn btn-primary mb-4" href="/courses/{$page.params.id}/meet">Join Meet</a>
+    <a class="btn btn-primary mb-4" href="http://localhost:8000?room={$subjectStore.id}">Join Meet</a>
     {#if $roleIdStore === Roles.TEACHER_ID}
       <a href="/courses/{$page.params.id}" class="btn btn-outline-danger" on:click={async () => {
         await axios.put(`subjects/${$page.params.id}`, {isOnMeet: false});

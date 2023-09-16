@@ -130,7 +130,7 @@
               <td>{subject["name"]}</td>
               <td>{subject["classroom"]["name"]}</td>
               <td>{`${subject["teacher"]["firstName"]} ${subject["teacher"]["lastName"]}`}</td>
-              <td>{subject["description"]}</td>
+              <td>{subject["description"] ? subject["description"] : ""}</td>
               <td>
                 <a class="btn btn-outline" href={`subjects/${subject["id"]}/edit`}>
                   Edit

@@ -117,7 +117,7 @@
               <td>{classroom["id"]}</td>
               <td>{classroom["name"]}</td>
               <td>{classroom["department"]["name"]}</td>
-              <td>{classroom["description"]}</td>
+              <td>{classroom["description"] ? classroom["description"] : ""}</td>
               <td>
                 <a class="btn btn-outline" href={`classrooms/${classroom["id"]}/edit`}>
                   Edit
